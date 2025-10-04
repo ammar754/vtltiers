@@ -161,7 +161,7 @@ function addTier() {
   document.getElementById("adminMsg").textContent = "Tier added! (dummy, update user manually)";
 }
 
-// PENTING! expose fungsi ke window agar HTML onclick bisa bekerja
+// Penting! expose fungsi ke window supaya onclick bisa jalan
 window.openAdmin = openAdmin;
 window.closeAdmin = closeAdmin;
 window.adminLogin = adminLogin;
