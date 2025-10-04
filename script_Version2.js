@@ -15,10 +15,23 @@ let users = [
       { icon: "👾", label: "HT1", type: "ht" }
     ]
   },
-  // ... data lain ...
+  {
+    rank: 2,
+    avatar: "https://crafatar.com/avatars/1e1e1e1e-5b57-4b4d-8b4a-2e3c3c3e3e3e?size=64&overlay",
+    name: "Budi",
+    title: "Master Kombat",
+    points: 330,
+    region: "Indonesia",
+    tiers: [
+      { icon: "🧪", label: "HT1", type: "ht" },
+      { icon: "👾", label: "HT1", type: "ht" },
+      { icon: "🌑", label: "HT1", type: "ht" },
+      { icon: "🗡️", label: "HT2", type: "ht" },
+      { icon: "🪓", label: "LT2", type: "lt" }
+    ]
+  }
 ];
 
-// Sisanya sama, hanya ubah pesan ke Indonesia
 function renderUsers() {
   users.forEach((u, i) => u.rank = i + 1);
   const rows = document.getElementById('ranking-rows');
@@ -69,10 +82,16 @@ function renderAdminUsersList() {
           <span class="admin-user-name">${u.name}</span>
           <span class="admin-user-region">(${u.region})</span>
         </span>
-        <button class="admin-del-btn" onclick="deleteUser(${i})">Hapus</button>
+        <button class="admin-del-btn" data-idx="${i}">Hapus</button>
       </div>
     `).join('') +
     '</div>';
+  // Pasang event listener pada tombol hapus
+  document.querySelectorAll('.admin-del-btn').forEach(btn => {
+    btn.onclick = function() {
+      deleteUser(parseInt(this.getAttribute('data-idx')));
+    };
+  });
 }
 renderUsers();
 
@@ -134,10 +153,12 @@ function addTier() {
   document.getElementById("adminMsg").textContent = "Tier ditambah! (dummy, update user manual)";
 }
 
-// Penting! expose fungsi ke window supaya onclick bisa jalan
-window.openAdmin = openAdmin;
-window.closeAdmin = closeAdmin;
-window.adminLogin = adminLogin;
-window.addUser = addUser;
-window.addTier = addTier;
-window.deleteUser = deleteUser;
+// ====== PENTING: PASANG SEMUA EVENT LISTENER JIKA HTML SUDAH DIMUAT ======
+window.onload = function() {
+  document.getElementById('openAdminBtn').onclick = openAdmin;
+  document.getElementById('closeBtn1').onclick = closeAdmin;
+  document.getElementById('closeBtn2').onclick = closeAdmin;
+  document.getElementById('loginBtn').onclick = adminLogin;
+  document.getElementById('addUserBtn').onclick = addUser;
+  document.getElementById('addTierBtn').onclick = addTier;
+};
