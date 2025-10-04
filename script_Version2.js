@@ -86,7 +86,7 @@ function renderAdminUsersList() {
       </div>
     `).join('') +
     '</div>';
-  // Pasang event listener pada tombol hapus
+  // Event listener untuk setiap tombol hapus
   document.querySelectorAll('.admin-del-btn').forEach(btn => {
     btn.onclick = function() {
       deleteUser(parseInt(this.getAttribute('data-idx')));
@@ -153,12 +153,12 @@ function addTier() {
   document.getElementById("adminMsg").textContent = "Tier ditambah! (dummy, update user manual)";
 }
 
-// ====== PENTING: PASANG SEMUA EVENT LISTENER JIKA HTML SUDAH DIMUAT ======
-window.onload = function() {
-  document.getElementById('openAdminBtn').onclick = openAdmin;
-  document.getElementById('closeBtn1').onclick = closeAdmin;
-  document.getElementById('closeBtn2').onclick = closeAdmin;
-  document.getElementById('loginBtn').onclick = adminLogin;
-  document.getElementById('addUserBtn').onclick = addUser;
-  document.getElementById('addTierBtn').onclick = addTier;
-};
+// PASANG EVENT LISTENER PADA BUTTON SETELAH DOM READY
+window.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('openAdminBtn').addEventListener('click', openAdmin);
+  document.getElementById('closeBtn1').addEventListener('click', closeAdmin);
+  document.getElementById('closeBtn2').addEventListener('click', closeAdmin);
+  document.getElementById('loginBtn').addEventListener('click', adminLogin);
+  document.getElementById('addUserBtn').addEventListener('click', addUser);
+  document.getElementById('addTierBtn').addEventListener('click', addTier);
+});
