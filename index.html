@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>VTL Tiers Rankings - Overall</title>
+  <title>Peringkat VTL Tiers - Keseluruhan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -11,34 +11,34 @@
   <div class="nav">
     <div class="logo">VTL TIERS</div>
     <nav>
-      <a href="#" class="active">Home</a>
-      <a href="#">Rankings</a>
-      <a href="#">Discords</a>
-      <input type="text" class="search" placeholder="Search player...">
+      <a href="#" class="active">Beranda</a>
+      <a href="#">Peringkat</a>
+      <a href="#">Discord</a>
+      <input type="text" class="search" placeholder="Cari pemain...">
     </nav>
   </div>
   <div class="tabs">
-    <button class="tab active"><span>🏆</span> Overall</button>
+    <button class="tab active"><span>🏆</span> Keseluruhan</button>
     <button class="tab"><span>⚔️</span> LTMs</button>
     <button class="tab"><span>💎</span> Vanilla</button>
     <button class="tab"><span>❤️</span> UHC</button>
     <button class="tab"><span>🧪</span> Pot</button>
     <button class="tab"><span>👾</span> NethOP</button>
     <button class="tab"><span>🌑</span> SMP</button>
-    <button class="tab"><span>🗡️</span> Sword</button>
-    <button class="tab"><span>🪓</span> Axe</button>
-    <button class="tab"><span>🔨</span> Mace</button>
+    <button class="tab"><span>🗡️</span> Pedang</button>
+    <button class="tab"><span>🪓</span> Kapak</button>
+    <button class="tab"><span>🔨</span> Palu</button>
   </div>
   <div class="panel">
     <div class="info">
-      <button class="infobtn">ℹ️ Information</button>
+      <button class="infobtn">ℹ️ Informasi</button>
       <span class="server">SERVER IP: <b>vtlpvp.club</b> <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/discord.svg" style="height:1em;vertical-align:middle;"></a></span>
     </div>
   </div>
   <div class="ranking-table">
     <div class="ranking-head">
       <div class="col col-rank">#</div>
-      <div class="col col-player">PLAYER</div>
+      <div class="col col-player">PEMAIN</div>
       <div class="col col-region">REGION</div>
       <div class="col col-tiers">TIERS</div>
     </div>
@@ -47,29 +47,29 @@
   <!-- Admin Modal -->
   <div class="admin-modal" id="adminModal">
     <div class="admin-modal-content" id="adminLoginPanel">
-      <h2>Admin Login</h2>
+      <h2>Login Admin</h2>
       <button onclick="closeAdmin()" class="close-btn">✕</button>
-      <input id="adminUser" type="text" placeholder="Username" autocomplete="username">
-      <input id="adminPass" type="password" placeholder="Password" autocomplete="current-password">
-      <button class="admin-action" onclick="adminLogin()">Login</button>
+      <input id="adminUser" type="text" placeholder="Nama pengguna" autocomplete="username">
+      <input id="adminPass" type="password" placeholder="Kata sandi" autocomplete="current-password">
+      <button class="admin-action" onclick="adminLogin()">Masuk</button>
       <div id="adminLoginMsg"></div>
     </div>
     <div class="admin-modal-content" id="adminPanel" style="display:none">
-      <h2>Admin Panel</h2>
+      <h2>Panel Admin</h2>
       <button onclick="closeAdmin()" class="close-btn">✕</button>
       <div class="admin-section">
-        <h3>Add User</h3>
-        <input id="nameInput" type="text" placeholder="Player name">
-        <input id="regionInput" type="text" placeholder="Region (ex: NA)">
-        <button class="admin-action" onclick="addUser()">Add User</button>
+        <h3>Tambah Pemain</h3>
+        <input id="nameInput" type="text" placeholder="Nama pemain">
+        <input id="regionInput" type="text" placeholder="Region (ex: Indonesia)">
+        <button class="admin-action" onclick="addUser()">Tambah Pemain</button>
       </div>
       <div class="admin-section">
-        <h3>Add Tier</h3>
-        <input id="tierInput" type="text" placeholder="Tier name (LT1, HT1, ...)">
-        <button class="admin-action" onclick="addTier()">Add Tier</button>
+        <h3>Tambah Tier</h3>
+        <input id="tierInput" type="text" placeholder="Nama tier (LT1, HT1, ...)">
+        <button class="admin-action" onclick="addTier()">Tambah Tier</button>
       </div>
       <div class="admin-section">
-        <h3>User List</h3>
+        <h3>Daftar Pemain</h3>
         <div id="adminUsersList"></div>
       </div>
       <div id="adminMsg"></div>
