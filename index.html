@@ -48,25 +48,25 @@
   <div class="admin-modal" id="adminModal">
     <div class="admin-modal-content" id="adminLoginPanel">
       <h2>Login Admin</h2>
-      <button onclick="closeAdmin()" class="close-btn">✕</button>
+      <button id="closeBtn1" class="close-btn">✕</button>
       <input id="adminUser" type="text" placeholder="Nama pengguna" autocomplete="username">
       <input id="adminPass" type="password" placeholder="Kata sandi" autocomplete="current-password">
-      <button class="admin-action" onclick="adminLogin()">Masuk</button>
+      <button class="admin-action" id="loginBtn">Masuk</button>
       <div id="adminLoginMsg"></div>
     </div>
     <div class="admin-modal-content" id="adminPanel" style="display:none">
       <h2>Panel Admin</h2>
-      <button onclick="closeAdmin()" class="close-btn">✕</button>
+      <button id="closeBtn2" class="close-btn">✕</button>
       <div class="admin-section">
         <h3>Tambah Pemain</h3>
         <input id="nameInput" type="text" placeholder="Nama pemain">
         <input id="regionInput" type="text" placeholder="Region (ex: Indonesia)">
-        <button class="admin-action" onclick="addUser()">Tambah Pemain</button>
+        <button class="admin-action" id="addUserBtn">Tambah Pemain</button>
       </div>
       <div class="admin-section">
         <h3>Tambah Tier</h3>
         <input id="tierInput" type="text" placeholder="Nama tier (LT1, HT1, ...)">
-        <button class="admin-action" onclick="addTier()">Tambah Tier</button>
+        <button class="admin-action" id="addTierBtn">Tambah Tier</button>
       </div>
       <div class="admin-section">
         <h3>Daftar Pemain</h3>
@@ -75,7 +75,7 @@
       <div id="adminMsg"></div>
     </div>
   </div>
-  <button class="admin-btn" onclick="openAdmin()">⚙️ Admin</button>
+  <button class="admin-btn" id="openAdminBtn">⚙️ Admin</button>
   <script src="script.js"></script>
 </body>
 </html>
