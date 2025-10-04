@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VTL Tiers Rankings - Overall</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="nav">
+    <div class="logo">VTL TIERS</div>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="#">Rankings</a>
+      <a href="#">Discords</a>
+      <input type="text" class="search" placeholder="Search player...">
+    </nav>
+  </div>
+  <div class="tabs">
+    <button class="tab active"><span>🏆</span> Overall</button>
+    <button class="tab"><span>⚔️</span> LTMs</button>
+    <button class="tab"><span>💎</span> Vanilla</button>
+    <button class="tab"><span>❤️</span> UHC</button>
+    <button class="tab"><span>🧪</span> Pot</button>
+    <button class="tab"><span>👾</span> NethOP</button>
+    <button class="tab"><span>🌑</span> SMP</button>
+    <button class="tab"><span>🗡️</span> Sword</button>
+    <button class="tab"><span>🪓</span> Axe</button>
+    <button class="tab"><span>🔨</span> Mace</button>
+  </div>
+  <div class="panel">
+    <div class="info">
+      <button class="infobtn">ℹ️ Information</button>
+      <span class="server">SERVER IP: <b>vtlpvp.club</b> <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/discord.svg" style="height:1em;vertical-align:middle;"></a></span>
+    </div>
+  </div>
+  <div class="ranking-table">
+    <div class="ranking-head">
+      <div class="col col-rank">#</div>
+      <div class="col col-player">PLAYER</div>
+      <div class="col col-region">REGION</div>
+      <div class="col col-tiers">TIERS</div>
+    </div>
+    <div class="ranking-rows" id="ranking-rows">
+      <!-- Users will be rendered by JS -->
+    </div>
+  </div>
+
+  <!-- Admin Login & Panel Modal -->
+  <div class="admin-modal" id="adminModal">
+    <!-- LOGIN PANEL -->
+    <div class="admin-modal-content" id="adminLoginPanel">
+      <h2>Admin Login</h2>
+      <button onclick="closeAdmin()" class="close-btn">✕</button>
+      <input id="adminUser" type="text" placeholder="Username" autocomplete="username">
+      <input id="adminPass" type="password" placeholder="Password" autocomplete="current-password">
+      <button class="admin-action" onclick="adminLogin()">Login</button>
+      <div id="adminLoginMsg"></div>
+    </div>
+    <!-- ADMIN PANEL -->
+    <div class="admin-modal-content" id="adminPanel" style="display:none">
+      <h2>Admin Panel</h2>
+      <button onclick="closeAdmin()" class="close-btn">✕</button>
+      <div class="admin-section">
+        <h3>Add User</h3>
+        <input id="nameInput" type="text" placeholder="Player name">
+        <input id="regionInput" type="text" placeholder="Region (ex: NA)">
+        <button class="admin-action" onclick="addUser()">Add User</button>
+      </div>
+      <div class="admin-section">
+        <h3>Add Tier</h3>
+        <input id="tierInput" type="text" placeholder="Tier name (LT1, HT1, ...)">
+        <button class="admin-action" onclick="addTier()">Add Tier</button>
+      </div>
+      <div class="admin-section">
+        <h3>User List</h3>
+        <div id="adminUsersList"></div>
+      </div>
+      <div id="adminMsg"></div>
+    </div>
+  </div>
+  <button class="admin-btn" onclick="openAdmin()">⚙️ Admin</button>
+  <script src="script.js"></script>
+</body>
+</html>
