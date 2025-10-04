@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- ... navbar, tabs, ranking table ... (seperti file kamu, biarkan saja) ... -->
   <div class="nav">
     <div class="logo">VTL TIERS</div>
     <nav>
@@ -42,14 +43,10 @@
       <div class="col col-region">REGION</div>
       <div class="col col-tiers">TIERS</div>
     </div>
-    <div class="ranking-rows" id="ranking-rows">
-      <!-- Users will be rendered by JS -->
-    </div>
+    <div class="ranking-rows" id="ranking-rows"></div>
   </div>
-
-  <!-- Admin Login & Panel Modal -->
+  <!-- Admin Modal -->
   <div class="admin-modal" id="adminModal">
-    <!-- LOGIN PANEL -->
     <div class="admin-modal-content" id="adminLoginPanel">
       <h2>Admin Login</h2>
       <button onclick="closeAdmin()" class="close-btn">✕</button>
@@ -58,7 +55,6 @@
       <button class="admin-action" onclick="adminLogin()">Login</button>
       <div id="adminLoginMsg"></div>
     </div>
-    <!-- ADMIN PANEL -->
     <div class="admin-modal-content" id="adminPanel" style="display:none">
       <h2>Admin Panel</h2>
       <button onclick="closeAdmin()" class="close-btn">✕</button>
