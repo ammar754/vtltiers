@@ -1,631 +1,105 @@
-<!DOCTYPE html>
-<html lang="id">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Peringkat VTL Tiers - Keseluruhan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background: #101623;
-      color: #d1d5db;
-      font-family: 'Inter', Arial, sans-serif;
-      margin: 0;
-      min-height: 100vh;
-    }
-    .nav {
-      display: flex;
-      align-items: center;
-      background: #161c2e;
-      padding: 0 32px;
-      height: 64px;
-      border-bottom: 1px solid #232c47;
-      gap: 28px;
-    }
-    .logo {
-      font-weight: 900;
-      font-size: 1.7rem;
-      color: #ffe566;
-      letter-spacing: 1px;
-      font-family: 'Inter', Arial, sans-serif;
-      text-shadow: 1px 2px 3px #0008;
-    }
-    nav {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    nav a {
-      color: #a1a1aa;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 6px 12px;
-      border-radius: 7px;
-      transition: 0.18s;
-    }
-    nav a.active, nav a:hover {
-      background: #232c47;
-      color: #ffe566;
-    }
-    .search {
-      background: #12182b;
-      border: none;
-      color: #d1d5db;
-      border-radius: 8px;
-      padding: 8px 18px;
-      font-size: 1rem;
-      margin-left: auto;
-      box-shadow: 0 1px 2px #0004 inset;
-    }
-    .tabs {
-      display: flex;
-      background: #141a2c;
-      padding: 0 32px;
-      border-bottom: 1px solid #232c47;
-      gap: 8px;
-    }
-    .tab {
-      background: none;
-      border: none;
-      color: #d1d5db;
-      padding: 12px 22px;
-      font-size: 1.02rem;
-      border-radius: 12px 12px 0 0;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.16s;
-      margin-bottom: -2px;
-      outline: none;
-    }
-    .tab.active, .tab:hover {
-      background: #232c47;
-      color: #ffe566;
-      border-bottom: 2.5px solid #ffe566;
-    }
-    .panel {
-      display: flex;
-      justify-content: flex-end;
-      gap: 14px;
-      background: #161c2e;
-      padding: 8px 32px;
-      font-size: 1rem;
-      align-items: center;
-      border-bottom: 1px solid #232c47;
-    }
-    .info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .infobtn {
-      background: #232c47;
-      color: #bfdbfe;
-      border: none;
-      border-radius: 7px;
-      padding: 6px 16px;
-      font-weight: 700;
-      margin-right: 10px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .server {
-      background: #232c47;
-      border-radius: 7px;
-      padding: 6px 14px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 1rem;
-      display: inline-block;
-    }
-    .ranking-table {
-      max-width: 900px;
-      margin: 35px auto 0 auto;
-      border-radius: 18px;
-      background: #161c2e;
-      box-shadow: 0 4px 32px #0002;
-      overflow: hidden;
-    }
-    .ranking-head,
-    .ranking-row {
-      display: grid;
-      grid-template-columns: 64px 1.8fr 0.8fr 2.2fr;
-      align-items: center;
-      gap: 0;
-    }
-    .ranking-head {
-      background: #13141c;
-      color: #8ea4c8;
-      font-weight: 800;
-      font-size: 1.07rem;
-      padding: 14px 0 14px 0;
-      border-bottom: 1px solid #232c47;
-      letter-spacing: 0.014em;
-    }
-    .col {
-      padding-left: 22px;
-    }
-    .col.col-tiers {
-      padding-left: 2px;
-    }
-    .ranking-rows {
-      width: 100%;
-    }
-    .ranking-row {
-      background: #101623;
-      border-bottom: 1.5px solid #232c47;
-      transition: background 0.15s;
-      min-height: 68px;
-    }
-    .ranking-row:hover {
-      background: #232c47;
-    }
-    .rank-badge {
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-    .rank-number {
-      font-size: 1.55rem;
-      font-weight: 900;
-      color: #ffe566;
-      background: linear-gradient(120deg, #ffe566 60%, #fffbe6 100%);
-      border-radius: 10px 0 10px 0;
-      min-width: 44px;
-      min-height: 44px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 1px 2px 6px #0002;
-      margin-right: 10px;
-    }
-    .player-avatar {
-      width: 44px; height: 44px;
-      border-radius: 7px;
-      object-fit: cover;
-      margin-right: 8px;
-      background: #232c47;
-      border: 2.5px solid #ffe566;
-    }
-    .player-details {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .player-name {
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: #fff;
-    }
-    .player-title {
-      font-size: 0.98rem;
-      color: #ffe566;
-      font-weight: 600;
-      opacity: 0.7;
-    }
-    .player-points {
-      color: #8ea4c8;
-      font-size: 0.96rem;
-      font-weight: 600;
-      margin-left: 3px;
-    }
-    .region {
-      display: inline-block;
-      background: #991b1b;
-      color: #fff;
-      border-radius: 8px;
-      font-weight: 800;
-      padding: 5px 14px;
-      font-size: 1rem;
-      text-align: center;
-    }
-    .tiers-list {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-    .tier-badge {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 42px;
-      margin-right: 1px;
-    }
-    .tier-icon {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: #232c47;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.28rem;
-      margin-bottom: 2px;
-      border: 2px solid #ffe566;
-    }
-    .tier-label {
-      font-size: 0.87rem;
-      font-weight: 700;
-      color: #ffe566;
-      background: #232c47;
-      border-radius: 6px;
-      padding: 0 7px;
-      margin-top: 1px;
-      line-height: 1.2;
-      border: 1.5px solid #ffe566;
-    }
-    .tier-label.lt { color: #a5b4fc; border-color: #a5b4fc; background: #1e293b; }
-    .tier-label.ht { color: #fdba74; border-color: #fdba74; background: #1e293b; }
-    @media (max-width: 800px) {
-      .ranking-table { max-width: 99vw; }
-      .nav, .tabs, .panel { padding: 0 6vw; }
-      .legend, .table-wrap { padding: 0 2vw; }
-    }
-    @media (max-width: 600px) {
-      .ranking-head, .ranking-row {
-        grid-template-columns: 46px 1.5fr 0.8fr 2fr;
-        font-size: 0.96rem;
-      }
-      .col { padding-left: 7px;}
-    }
-    .admin-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      z-index: 50;
-      background: #ffe566;
-      color: #232c47;
-      border: none;
-      border-radius: 13px;
-      min-width: 170px;
-      height: 56px;
-      font-size: 1.14rem;
-      font-weight: 900;
-      box-shadow: 0 2px 8px #0005;
-      cursor: pointer;
-      transition: 0.2s;
-      letter-spacing: 1px;
-    }
-    .admin-btn:hover { background: #fffbe6; }
-    .close-btn {
-      position: absolute;
-      top: 10px; right: 20px;
-      background: #232c47;
-      color: #ffe566;
-      border: none;
-      border-radius: 10px;
-      font-size: 2.2rem;
-      cursor: pointer;
-      padding: 0 12px;
-    }
-    .admin-modal {
-      display: none;
-      position: fixed;
-      left: 0; top: 0;
-      width: 100vw; height: 100vh;
-      background: #000a;
-      align-items: center;
-      justify-content: center;
-      z-index: 99;
-    }
-    .admin-modal.show { display: flex; }
-    .admin-modal-content {
-      background: #232c47;
-      padding: 36px 40px 32px 40px;
-      border-radius: 20px;
-      min-width: 340px;
-      color: #fff;
-      position: relative;
-      box-shadow: 0 8px 48px #000a;
-      font-size: 1.13rem;
-      max-width: 97vw;
-    }
-    .admin-modal-content input {
-      display: block;
-      width: 92%;
-      margin: 10px 0 12px 0;
-      padding: 10px 13px;
-      border-radius: 8px;
-      border: none;
-      background: #101623;
-      color: #fff;
-      font-size: 1rem;
-    }
-    .admin-modal-content button,
-    .admin-action {
-      background: #ffe566;
-      color: #232c47;
-      font-weight: 800;
-      border: none;
-      border-radius: 8px;
-      padding: 9px 22px;
-      margin-top: 7px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-bottom: 7px;
-      transition: 0.18s;
-    }
-    .admin-section {
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #33415531;
-    }
-    #adminMsg { margin-top: 15px; font-size: 1rem; color: #ffe566;}
-    #adminLoginMsg { margin-top: 15px; font-size: 1rem; color: #ffe566;}
-    .admin-users-list {
-      margin-top: 8px;
-      background: #101623;
-      border-radius: 8px;
-      padding: 7px 3px;
-      max-height: 170px;
-      overflow-y: auto;
-    }
-    .admin-user-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 7px;
-      padding: 7px 13px;
-      border-bottom: 1px solid #232c47;
-    }
-    .admin-user-row:last-child { border-bottom: none; }
-    .admin-user-name {
-      font-weight: 700;
-      color: #ffe566;
-    }
-    .admin-user-region {
-      font-size: 0.98rem;
-      color: #8ea4c8;
-      margin-left: 6px;
-    }
-    .admin-del-btn {
-      background: #dc2626;
-      color: #fff;
-      font-weight: 700;
-      border: none;
-      border-radius: 7px;
-      padding: 5px 14px;
-      font-size: 0.98rem;
-      cursor: pointer;
-      margin-left: 10px;
-      transition: 0.16s;
-    }
-    .admin-del-btn:hover { background: #b91c1c; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Leaderboard — MCTiers-like</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="nav">
-    <div class="logo">VTL TIERS</div>
-    <nav>
-      <a href="#" class="active">Beranda</a>
-      <a href="#">Peringkat</a>
-      <a href="#">Discord</a>
-      <input type="text" class="search" placeholder="Cari pemain...">
-    </nav>
-  </div>
-  <div class="tabs">
-    <button class="tab active"><span>🏆</span> Keseluruhan</button>
-    <button class="tab"><span>⚔️</span> LTMs</button>
-    <button class="tab"><span>💎</span> Vanilla</button>
-    <button class="tab"><span>❤️</span> UHC</button>
-    <button class="tab"><span>🧪</span> Pot</button>
-    <button class="tab"><span>👾</span> NethOP</button>
-    <button class="tab"><span>🌑</span> SMP</button>
-    <button class="tab"><span>🗡️</span> Pedang</button>
-    <button class="tab"><span>🪓</span> Kapak</button>
-    <button class="tab"><span>🔨</span> Palu</button>
-  </div>
-  <div class="panel">
-    <div class="info">
-      <button class="infobtn">ℹ️ Informasi</button>
-      <span class="server">SERVER IP: <b>vtlpvp.club</b> <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/discord.svg" style="height:1em;vertical-align:middle;"></a></span>
-    </div>
-  </div>
-  <div class="ranking-table">
-    <div class="ranking-head">
-      <div class="col col-rank">#</div>
-      <div class="col col-player">PEMAIN</div>
-      <div class="col col-region">REGION</div>
-      <div class="col col-tiers">TIERS</div>
-    </div>
-    <div class="ranking-rows" id="ranking-rows"></div>
-  </div>
-  <!-- Admin Modal -->
-  <div class="admin-modal" id="adminModal">
-    <div class="admin-modal-content" id="adminLoginPanel">
-      <h2>Login Admin</h2>
-      <button id="closeBtn1" class="close-btn">✕</button>
-      <input id="adminUser" type="text" placeholder="Nama pengguna" autocomplete="username">
-      <input id="adminPass" type="password" placeholder="Kata sandi" autocomplete="current-password">
-      <button class="admin-action" id="loginBtn">Masuk</button>
-      <div id="adminLoginMsg"></div>
-    </div>
-    <div class="admin-modal-content" id="adminPanel" style="display:none">
-      <h2>Panel Admin</h2>
-      <button id="closeBtn2" class="close-btn">✕</button>
-      <div class="admin-section">
-        <h3>Tambah Pemain</h3>
-        <input id="nameInput" type="text" placeholder="Nama pemain">
-        <input id="regionInput" type="text" placeholder="Region (ex: Indonesia)">
-        <button class="admin-action" id="addUserBtn">Tambah Pemain</button>
+  <div class="wrap">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">MT</div>
+        <div class="title">
+          <h1>Leaderboard</h1>
+          <div class="sub small">Public leaderboard — names hidden</div>
+        </div>
       </div>
-      <div class="admin-section">
-        <h3>Tambah Tier</h3>
-        <input id="tierInput" type="text" placeholder="Nama tier (LT1, HT1, ...)">
-        <button class="admin-action" id="addTierBtn">Tambah Tier</button>
+      <div class="controls">
+        <button class="btn" onclick="location.reload()">Refresh</button>
+        <a href="admin.html" class="btn primary">Admin</a>
       </div>
-      <div class="admin-section">
-        <h3>Daftar Pemain</h3>
-        <div id="adminUsersList"></div>
-      </div>
-      <div id="adminMsg"></div>
-    </div>
-  </div>
-  <button class="admin-btn" id="openAdminBtn">Admin Panel Login</button>
-  <script>
-let users = [
-  {
-    rank: 2,
-    avatar: "https://crafatar.com/avatars/8e0e9c8f-5b57-4b4d-8b4a-2e3c3c3e3e3e?size=64&overlay",
-    name: "MarOnHere",
-    title: "Grandmaster Kombat",
-    points: 35,
-    region: "Indonesia",
-    tiers: [
-      { icon: "🌑", label: "LT5", type: "lt" },
-      { icon: "💎", label: "LT5", type: "lt" },
-      { icon: "🗡️", label: "LT5", type: "lt" },
-      { icon: "❤️", label: "LT5", type: "lt" },
-      { icon: "🧪", label: "LT5", type: "lt" },
-      { icon: "👾", label: "LT5", type: "lt" }
-    ]
-  },
-  {
-    rank: 1,
-    avatar: "",
-    name: "ItzMeCakra",
-    title: "Grandmaster Kombat",
-    points: 30,
-    region: "Indonesia",
-    tiers: [
-      { icon: "💎", label: "LT3", type: "lt" },
-      { icon: "🗡️", label: "LT5", type: "lt" },
-      { icon: "❤️", label: "LT5", type: "lt" },
-      { icon: "🧪", label: "LT5", type: "lt" },
-      { icon: "👾", label: "LT5", type: "lt" }
-    ]
-  }
-];
+    </header>
 
-function renderUsers() {
-  users.forEach((u, i) => u.rank = i + 1);
-  const rows = document.getElementById('ranking-rows');
-  rows.innerHTML = "";
-  users.forEach(user => {
-    rows.innerHTML += `
-      <div class="ranking-row">
-        <div class="col col-rank">
-          <div class="rank-badge">
-            <span class="rank-number">${user.rank}.</span>
-            <img src="${user.avatar}" class="player-avatar" />
-          </div>
+    <div class="layout">
+      <main class="card">
+        <div class="tabs" id="tabs"></div>
+        <div class="topbar">
+          <div class="search"><input id="search" placeholder="Search tier, points, or id" /></div>
+          <div class="small">Sort: Points ↓</div>
         </div>
-        <div class="col col-player">
-          <div class="player-details">
-            <span class="player-name">${user.name}</span>
-            <span class="player-title">${user.title} <span class="player-points">(${user.points} poin)</span></span>
-          </div>
-        </div>
-        <div class="col col-region">
-          <span class="region">${user.region}</span>
-        </div>
-        <div class="col col-tiers">
-          <div class="tiers-list">
-            ${user.tiers.map(tier => `
-              <div class="tier-badge">
-                <span class="tier-icon">${tier.icon}</span>
-                <span class="tier-label ${tier.type}">${tier.label}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-    `;
-  });
-}
-function renderAdminUsersList() {
-  const list = document.getElementById("adminUsersList");
-  if (!list) return;
-  if (users.length === 0) {
-    list.innerHTML = '<div class="admin-users-list"><em>Belum ada pemain.</em></div>';
-    return;
-  }
-  list.innerHTML = '<div class="admin-users-list">' +
-    users.map((u, i) => `
-      <div class="admin-user-row">
-        <span>
-          <span class="admin-user-name">${u.name}</span>
-          <span class="admin-user-region">(${u.region})</span>
-        </span>
-        <button class="admin-del-btn" data-idx="${i}">Hapus</button>
-      </div>
-    `).join('') +
-    '</div>';
-  document.querySelectorAll('.admin-del-btn').forEach(btn => {
-    btn.onclick = function() {
-      deleteUser(parseInt(this.getAttribute('data-idx')));
-    };
-  });
-}
-renderUsers();
 
-function openAdmin() {
-  document.getElementById("adminModal").classList.add("show");
-  document.getElementById("adminLoginPanel").style.display = "";
-  document.getElementById("adminPanel").style.display = "none";
-  document.getElementById("adminUser").value = "";
-  document.getElementById("adminPass").value = "";
-  document.getElementById("adminLoginMsg").textContent = "";
-}
-function closeAdmin() {
-  document.getElementById("adminModal").classList.remove("show");
-}
-function adminLogin() {
-  let user = document.getElementById("adminUser").value.trim();
-  let pass = document.getElementById("adminPass").value;
-  if(user === "ammar2130" && pass === "ammar21304050"){
-    document.getElementById("adminLoginPanel").style.display = "none";
-    document.getElementById("adminPanel").style.display = "";
-    document.getElementById("adminMsg").textContent = "";
-    renderAdminUsersList();
-  } else {
-    document.getElementById("adminLoginMsg").textContent = "Nama pengguna/kata sandi salah!";
-  }
-}
-function addUser() {
-  let name = document.getElementById("nameInput").value.trim();
-  let region = document.getElementById("regionInput").value.trim();
-  if (!name || !region) {
-    document.getElementById("adminMsg").textContent = "Isi semua kolom pemain!";
-    return;
-  }
-  users.push({
-    rank: users.length+1,
-    avatar: "https://crafatar.com/avatars/00000000-0000-0000-0000-000000000000?size=64&overlay",
-    name: name,
-    title: "Pemain Baru",
-    points: 0,
-    region: region,
-    tiers: []
+        <div class="row header">
+          <div>#</div><div>Player</div><div>Region</div><div>Tier</div><div style="text-align:right">Points</div>
+        </div>
+
+        <div id="list" class="list"></div>
+      </main>
+
+      <aside class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div><strong>About</strong><div class="small">Static public view</div></div>
+        </div>
+        <div class="small">To manage players, use Admin panel (server required).</div>
+      </aside>
+    </div>
+  </div>
+
+<script>
+const CATEGORIES = ["Overall","LTMs","Vanilla","UHC","Pot","NethOP","SMP","Sword","Axe","Mace"];
+let active = 'Overall';
+
+async function init(){
+  const tabs = document.getElementById('tabs');
+  CATEGORIES.forEach(c=>{
+    const b = document.createElement('button');
+    b.className = 'tab' + (c===active ? ' active' : '');
+    b.textContent = c;
+    b.onclick = ()=>{ active=c; render(); document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.textContent===active)); };
+    tabs.appendChild(b);
   });
-  renderUsers();
-  renderAdminUsersList();
-  document.getElementById("adminMsg").textContent = "Pemain berhasil ditambahkan!";
-}
-function deleteUser(idx) {
-  users.splice(idx, 1);
-  renderUsers();
-  renderAdminUsersList();
-  document.getElementById("adminMsg").textContent = "Pemain dihapus!";
-}
-function addTier() {
-  let tier = document.getElementById("tierInput").value.trim();
-  if (!tier) {
-    document.getElementById("adminMsg").textContent = "Isi nama tier!";
-    return;
-  }
-  document.getElementById("adminMsg").textContent = "Tier ditambah! (dummy, update user manual)";
+  document.getElementById('search').addEventListener('input', render);
+  await render();
 }
 
-// PASANG EVENT LISTENER PADA BUTTON SETELAH DOM READY
-window.addEventListener("DOMContentLoaded", function() {
-  document.getElementById('openAdminBtn').addEventListener('click', openAdmin);
-  document.getElementById('closeBtn1').addEventListener('click', closeAdmin);
-  document.getElementById('closeBtn2').addEventListener('click', closeAdmin);
-  document.getElementById('loginBtn').addEventListener('click', adminLogin);
-  document.getElementById('addUserBtn').addEventListener('click', addUser);
-  document.getElementById('addTierBtn').addEventListener('click', addTier);
-});
-  </script>
+async function fetchPlayers(){
+  try{
+    const r = await fetch('/players');
+    if(r.ok) return await r.json();
+  }catch(e){ console.warn('fetch players failed',e); }
+  return [];
+}
+
+function maskName(name,id){ return 'Player • ' + (id? id.slice(-4) : Math.random().toString(36).slice(2,6)); }
+function escapeHtml(s){ if(!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function render(){
+  const root = document.getElementById('list');
+  root.innerHTML = '';
+  const all = await fetchPlayers();
+  const q = (document.getElementById('search').value || '').trim().toLowerCase();
+  let items = all.slice();
+  if(active !== 'Overall') items = items.filter(x=> x.region === active || x.mode === active || (x.mode===undefined && x.region===active));
+  if(q){
+    items = items.filter(it=> (it.tier && it.tier.toLowerCase().includes(q)) || (String(it.points).includes(q)) || (it.id && it.id.toLowerCase().includes(q)));
+  }
+  items.sort((a,b)=> b.points - a.points);
+  items.forEach((row, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'item cardlike';
+    const rank = '<div class="rank">'+(idx+1)+'</div>';
+    const avatar = '<div class="avatar"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="rgba(255,255,255,0.02)"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="Inter" fill="#9fb0c4">MC</text></svg></div>';
+    const player = '<div style="display:flex;gap:12px;align-items:center"><div style="width:72px;height:72px">'+avatar+'</div><div class="meta"><div class="name">'+escapeHtml(maskName(row.name,row.id))+'</div><div class="sub small">'+escapeHtml(row.region || row.mode || '')+'</div></div></div>';
+    const tier = '<div class="tier"><span class="badge '+((row.tier||'').toLowerCase())+'">'+escapeHtml(row.tier||'')+'</span></div>';
+    const pts = '<div class="pts" style="text-align:right">'+Number(row.points||0).toLocaleString()+'</div>';
+    div.innerHTML = rank + player + '<div>'+(escapeHtml(row.region||''))+'</div>' + tier + pts;
+    root.appendChild(div);
+  });
+}
+
+init();
+</script>
 </body>
 </html>
