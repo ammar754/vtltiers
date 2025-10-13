@@ -1,0 +1,26 @@
+[
+  {
+    "id": "p_1",
+    "name": "Alpha",
+    "region": "Global",
+    "tier": "HT1",
+    "points": 12650,
+    "avatar": ""
+  },
+  {
+    "id": "p_2",
+    "name": "Beta",
+    "region": "Vanilla",
+    "tier": "HT2",
+    "points": 8220,
+    "avatar": ""
+  },
+  {
+    "id": "p_3",
+    "name": "Gamma",
+    "region": "UHC",
+    "tier": "LT3",
+    "points": 1980,
+    "avatar": ""
+  }
+]

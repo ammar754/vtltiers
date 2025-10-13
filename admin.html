@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin — MCTiers-like</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">MT</div>
+        <div class="title"><h1>Admin Panel</h1><div class="sub small">Login required</div></div>
+      </div>
+      <div class="controls"><a href="index.html" class="btn">Back</a></div>
+    </header>
+
+    <main class="card">
+      <div id="loginBox">
+        <div class="form-row">
+          <label>Admin password</label>
+          <input id="pwd" type="password" placeholder="Enter admin password" />
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="loginBtn" class="btn primary">Login</button>
+        </div>
+        <div class="small" style="margin-top:8px;color:#fca5a5">Password is <strong>ammar2130405060</strong></div>
+      </div>
+
+      <div id="panel" style="display:none;margin-top:12px">
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <div style="flex:1"><label>Player name</label><input id="name" type="text" /></div>
+          <div style="width:180px"><label>Region</label><select id="region"></select></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <div style="width:180px"><label>Tier</label><select id="tier"></select></div>
+          <div style="width:180px"><label>Points</label><input id="points" type="number" value="0" /></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <button id="addBtn" class="btn primary">Add Player</button>
+          <button id="updateBtn" class="btn" style="display:none">Save</button>
+          <button id="logoutBtn" class="btn">Logout</button>
+        </div>
+
+        <div><h3>Players</h3><div id="list"></div></div>
+      </div>
+    </main>
+  </div>
+
+<script>
+const CATEGORIES = ["Overall","LTMs","Vanilla","UHC","Pot","NethOP","SMP","Sword","Axe","Mace"];
+const TIERS = ['LT5','LT4','LT3','LT2','LT1','HT5','HT4','HT3','HT2','HT1'];
+let token = null;
+let editingId = null;
+
+function el(q){ return document.querySelector(q); }
+function escapeHtml(s){ if(!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function populateSelects(){
+  const region = el('#region'); region.innerHTML=''; CATEGORIES.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; region.appendChild(o); });
+  const tier = el('#tier'); tier.innerHTML=''; TIERS.forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; tier.appendChild(o); });
+}
+
+async function login(){
+  const pwd = el('#pwd').value.trim();
+  if(!pwd){ alert('Enter password'); return; }
+  try{
+    const res = await fetch('/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password: pwd }) });
+    if(!res.ok){ alert('Invalid password'); return; }
+    const js = await res.json();
+    token = js.token;
+    afterLogin();
+  }catch(e){
+    alert('Server unreachable. Start server and ensure /login endpoint is available.');
+  }
+}
+
+function afterLogin(){
+  el('#loginBox').style.display='none'; el('#panel').style.display='block'; populateSelects(); fetchPlayers();
+}
+
+async function fetchPlayers(){
+  try{
+    const res = await fetch('/players');
+    if(!res.ok) throw new Error('failed');
+    const data = await res.json();
+    renderList(data);
+    return;
+  }catch(e){
+    alert('Failed to fetch players: start server at port 4000');
+    renderList([]);
+  }
+}
+
+function renderList(data){
+  const root = el('#list'); root.innerHTML='';
+  (data||[]).sort((a,b)=>b.points-a.points).forEach(it=>{
+    const row = document.createElement('div'); row.className='admin-item'; row.style.display='flex'; row.style.justifyContent='space-between'; row.style.alignItems='center';
+    row.innerHTML = '<div><strong>'+escapeHtml(it.name)+'</strong><div class="small">'+escapeHtml(it.region)+' · '+escapeHtml(it.tier)+' · '+Number(it.points).toLocaleString()+' pts</div></div><div style="display:flex;gap:6px"><button class="btn" onclick="startEdit(\''+it.id+'\')">Edit</button><button class="btn" onclick="deletePlayer(\''+it.id+'\')">Del</button></div>';
+    root.appendChild(row);
+  });
+}
+
+async function addPlayer(){
+  const name = el('#name').value.trim() || 'Hidden';
+  const region = el('#region').value;
+  const tier = el('#tier').value;
+  const points = Number(el('#points').value) || 0;
+  if(!token){ alert('Not authenticated'); return; }
+  try{
+    const res = await fetch('/players', { method:'POST', headers:{ 'Content-Type':'application/json', 'Authorization': 'Bearer '+token }, body: JSON.stringify({ name, region, tier, points }) });
+    if(!res.ok) throw new Error('create failed');
+    await fetchPlayers(); el('#name').value=''; el('#points').value='0';
+  }catch(e){
+    alert('Add failed. Ensure server is running and you provided correct password.');
+  }
+}
+
+async function deletePlayer(id){
+  if(!confirm('Delete this player?')) return;
+  if(!token){ alert('Not authenticated'); return; }
+  try{
+    const res = await fetch('/players/'+encodeURIComponent(id), { method:'DELETE', headers: { 'Authorization': 'Bearer '+token } });
+    if(!res.ok) throw new Error('delete failed');
+    await fetchPlayers();
+  }catch(e){
+    alert('Delete failed. Ensure server and authentication.');
+  }
+}
+
+function startEdit(id){
+  // fetch single player from server list and populate
+  fetch('/players').then(r=>r.json()).then(data=>{
+    const p = (data||[]).find(x=>x.id===id);
+    if(!p) return alert('Player not found');
+    editingId = id; el('#name').value = p.name; el('#region').value = p.region; el('#tier').value = p.tier; el('#points').value = p.points;
+    el('#addBtn').style.display='none'; el('#updateBtn').style.display='inline-block';
+  }).catch(()=>alert('Failed to load player'));
+}
+
+async function saveEdit(){
+  if(!editingId) return;
+  if(!token){ alert('Not authenticated'); return; }
+  const name = el('#name').value.trim() || 'Hidden';
+  const region = el('#region').value;
+  const tier = el('#tier').value;
+  const points = Number(el('#points').value) || 0;
+  try{
+    const res = await fetch('/players/'+encodeURIComponent(editingId), { method:'PUT', headers:{ 'Content-Type':'application/json', 'Authorization': 'Bearer '+token }, body: JSON.stringify({ name, region, tier, points }) });
+    if(!res.ok) throw new Error('update failed');
+    editingId = null; el('#addBtn').style.display='inline-block'; el('#updateBtn').style.display='none'; el('#name').value=''; el('#points').value='0';
+    await fetchPlayers();
+  }catch(e){
+    alert('Update failed. Ensure server and auth.');
+  }
+}
+
+function logout(){
+  token = null; location.href = 'index.html';
+}
+
+document.getElementById('loginBtn').addEventListener('click', login);
+document.getElementById('addBtn').addEventListener('click', addPlayer);
+document.getElementById('updateBtn').addEventListener('click', saveEdit);
+document.getElementById('logoutBtn').addEventListener('click', logout);
+
+populateSelects();
+</script>
+</body>
+</html>
